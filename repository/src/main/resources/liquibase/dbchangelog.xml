@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1" author="Sasha">
+        <sql>
+            create table admin
+            (
+                id    int auto_increment,
+                label varchar(255) null,
+                constraint admin_pk primary key (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="Sasha">
+        <sql>
+            create table consumer
+            (
+                id              int auto_increment,
+                apartmentsquare int null,
+                name            varchar(255) null,
+                surname         varchar(255) null,
+                operator_id     int null,
+                constraint consumer_pk primary key (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="3" author="Sasha">
+        <sql>
+            create table monthreport
+            (
+                id                                    int auto_increment,
+                pyament_for_electricity_energy        double null,
+                amount_of_electricity_energy_consumed double null,
+                amount_of_heat_energy_consumed        double null,
+                month                                 varchar(255) null,
+                pyament_for_gas                       double null,
+                pyament_heat_energy                   double null,
+                volume_of_consumed_gas                double null,
+                consumer_id                           int null,
+                operator_id                           int null,
+                tariff_id                             int null,
+                year_report_id                        int null,
+                constraint monthreport_pk primary key (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="Sasha">
+        <sql>
+            create table operator
+            (
+                id        int auto_increment,
+                label     varchar(255) null,
+                admin_id  int null,
+                tariff_id int null,
+                constraint operator_pk primary key (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="5" author="Sasha">
+        <sql>
+            create table tariff
+            (
+                id               int auto_increment,
+                electricity_cost double null,
+                heat_energy_cost double null,
+                month            varchar(255) null,
+                natural_gas_cost double null,
+                admin_id         int null,
+                constraint tariff_pk primary key (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="6" author="Sasha">
+        <sql>
+            create table yearreport
+            (
+                id                                    int auto_increment,
+                pyament_for_electricity_energy        double null,
+                amount_of_electricity_energy_consumed double null,
+                amount_of_heat_energy_consumed        double null,
+                pyament_for_gas                       double null,
+                pyament_heat_energy                   double null,
+                volume_of_consumed_gas                double null,
+                year                                  int null,
+                consumer_id                           int null,
+                operator_id                           int null,
+                constraint yearreport_pk primary key (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="8" author="Sasha">
+        <addForeignKeyConstraint baseColumnNames="operator_id" baseTableName="consumer"
+                                 constraintName="FK8oq3ct15tsbxbmlhbrqj6o3bi" referencedColumnNames="id"
+                                 referencedTableName="operator"/>
+        <addForeignKeyConstraint baseColumnNames="operator_id" baseTableName="monthreport"
+                                 constraintName="FK76fvdujhsy4qdrx6vu0p2pquh" referencedColumnNames="id"
+                                 referencedTableName="operator"/>
+        <addForeignKeyConstraint baseColumnNames="consumer_id" baseTableName="monthreport"
+                                 constraintName="FKmq1i02ivnk34yx3rk7mfu9luh" referencedColumnNames="id"
+                                 referencedTableName="consumer"/>
+        <addForeignKeyConstraint baseColumnNames="year_report_id" baseTableName="monthreport"
+                                 constraintName="FKnaa11lia8t6fcj0anqyapwd94" referencedColumnNames="id"
+                                 referencedTableName="yearreport"/>
+        <addForeignKeyConstraint baseColumnNames="tariff_id" baseTableName="monthreport"
+                                 constraintName="FKqps0lshxuoo5txx86q154vwow" referencedColumnNames="id"
+                                 referencedTableName="tariff"/>
+        <addForeignKeyConstraint baseColumnNames="admin_id" baseTableName="operator"
+                                 constraintName="FK3mjsq05gpyu48q7fp421jytvm" referencedColumnNames="id"
+                                 referencedTableName="admin"/>
+        <addForeignKeyConstraint baseColumnNames="tariff_id" baseTableName="operator"
+                                 constraintName="FKhw07s6pi4gblcxrfri5wexbkq" referencedColumnNames="id"
+                                 referencedTableName="tariff"/>
+        <addForeignKeyConstraint baseColumnNames="admin_id" baseTableName="tariff"
+                                 constraintName="FKrpq7tuw36e5ahcu0md5utgg8y" referencedColumnNames="id"
+                                 referencedTableName="admin"/>
+        <addForeignKeyConstraint baseColumnNames="operator_id" baseTableName="yearreport"
+                                 constraintName="FK21ouobotqgcw8uj4qrpwtvvg0" referencedColumnNames="id"
+                                 referencedTableName="operator"/>
+        <addForeignKeyConstraint baseColumnNames="consumer_id" baseTableName="yearreport"
+                                 constraintName="FKhncyev4nl3wves35oodmog1em" referencedColumnNames="id"
+                                 referencedTableName="consumer"/>
+    </changeSet>
+
+</databaseChangeLog>
